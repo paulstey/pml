@@ -19,10 +19,7 @@ d_raw <- read.csv("pml-training.csv", na.strings = c(" ", "NA", "#DIV/0!"))
 summary(d_raw)                              
 str(d_raw)
 
-
 d <- d_raw[, -c(1, 3, 4, 5, 7)]                 # cut row indx and timestamps
-
-
 
 
 ####
@@ -30,29 +27,20 @@ d <- d_raw[, -c(1, 3, 4, 5, 7)]                 # cut row indx and timestamps
 # we want to exclude
 ####
 exclude <- function(dat) {
-
     p <- ncol(dat)
-
     exclude <- rep(FALSE, p)
 
     for (j in 1:p) {
-
         if (any(is.na(dat[, j]))) {
-
             exclude[j] <- TRUE
         }
     }
-
     return(exclude)
 }
-
-
 
 d <- d[, !exclude(d)]                           # cut cols with any NAs
 
 feature_set <- names(d)                         # save feature set for testing
-
-
 
 
 ####
@@ -65,12 +53,9 @@ d <- d[which(d$new_window == 'no'), ]
 
 
 N <- nrow(d)
-
 ntrain <- floor(0.6*N)
 
 train_idcs <- sample(N, ntrain)
-
-
 
 
 ###
@@ -163,13 +148,6 @@ ggsave("pml_gbm_plot.png", height = 6, width = 8, units = "in", dpi = 700)
 
 
 
-
-
-
-
-
-
-
 svm_grid <- expand.grid(
     C = c(0.01, 0.5, 1, 2),
     sigma = c(1.0e-7, 1.0e-5, 0.001, 0.01, 0.1, 1.0)
@@ -201,12 +179,6 @@ fm4 <- train(
 
 
 
-
-
-
-
-
-
 ####
 # test data
 ####
@@ -228,13 +200,10 @@ soln <- as.character(answers)
 
 
 pml_write_files <- function(x){
-    
     n <- length(x)
     
     for (i in 1:n) {
-        
         filename <- paste0("problem_id_", i, ".txt")
-        
         write.table(x[i], 
             file = filename,
             quote = FALSE,
