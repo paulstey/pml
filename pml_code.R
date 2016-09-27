@@ -5,13 +5,10 @@
 # Author: Paul Stey
 #########
 
-
 library(caret)
 library(doMC)
 
 registerDoMC(30)
-
-
 
 d_raw <- read.csv("pml-training.csv", na.strings = c(" ", "NA", "#DIV/0!"))
 
@@ -77,7 +74,6 @@ rf_grid <- expand.grid(
     mtry = c(2, 10, 20, 30, 40, 50)
 )
 
-
 fm1 <- train(
     classe ~ ., 
     method = "rf",
@@ -94,8 +90,6 @@ p1 + geom_point(colour = "purple") +
     geom_line(colour = "purple") +
     ggtitle("Random Forest Model Results")
 
-
-
 ggsave("pml_rf_plot.png", height = 6, width = 8, units = "in", dpi = 700)
 
 fm1
@@ -103,13 +97,9 @@ fm1
 plot(fm1)
 varImp(fm1)
 
-
-
 rf_pred <- predict(fm1, newdata = d[-train_idcs, ], type = "raw")
 
 sum(rf_pred == d[-train_idcs, "classe"])/length(rf_pred)            # 0.9914 
-
-
 
 
 ###
@@ -145,7 +135,6 @@ p2 <- ggplot(fm2)
 p2 + ggtitle("Gradient Boosted Tree Model Results")
 
 ggsave("pml_gbm_plot.png", height = 6, width = 8, units = "in", dpi = 700)
-
 
 
 svm_grid <- expand.grid(
